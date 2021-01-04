@@ -5,7 +5,7 @@ const extractZip = require('extract-zip')
 const versionToDownload = require('./package').version
 let archToDownload = process.env.npm_config_arch
 
-if (process.arch.indexOf('arm') === 0) {
+if (process.platform !== 'darwin' && process.arch.indexOf('arm') === 0) {
   console.log(`WARNING: mksnapshot does not run on ${process.arch}. Download 
   https://github.com/electron/electron/releases/download/v${versionToDownload}/mksnapshot-v${versionToDownload}-${process.platform}-${process.arch}-x64.zip
   on a x64 ${process.platform} OS to generate ${archToDownload} snapshots.`)
@@ -15,11 +15,6 @@ if (process.arch.indexOf('arm') === 0) {
 if (archToDownload && archToDownload.indexOf('arm') === 0) {
   if (process.platform !== 'darwin') {
     archToDownload += '-x64'
-  } else {
-    console.log(`WARNING: mksnapshot for ${archToDownload} is not available on macOS. Download 
-    https://github.com/electron/electron/releases/download/v${versionToDownload}/mksnapshot-v${versionToDownload}-linux-${archToDownload}-x64.zip
-    on a x64 Linux OS to generate ${archToDownload} snapshots.`)
-    process.exit(1)
   }
 }
 
